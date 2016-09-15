@@ -65,6 +65,8 @@ public class ObfuscationHelper {
             return 1;
         } else if (versionName.contains("6.3.16.64")) {
             return 2;
+        } else if (versionName.contains("6.3.25")) {
+            return 3;
         } else {
             return -1;
         }
@@ -85,9 +87,9 @@ public class ObfuscationHelper {
             LauncherUI = findClass("com.tencent.mm.ui.LauncherUI", lpparam.classLoader);
             LauncherUIBottomTabView = findClass(MM_UI_PACKAGENAME + "LauncherUIBottomTabView", lpparam.classLoader);
             LauncherUIBottomTabView$Tab = findClass(MM_UI_PACKAGENAME + "LauncherUIBottomTabView" +
-                    new String[]{"$a", "$a", "$a"}[idx], lpparam.classLoader);
+                    new String[]{"$a", "$a", "$a", "$a"}[idx], lpparam.classLoader);
             AccountStorage = findClass(MM_MODEL_PACKAGENAME +
-                    new String[]{"ah", "ah", "ah"}[idx], lpparam.classLoader);
+                    new String[]{"ah", "ah", "ah", "ah"}[idx], lpparam.classLoader);
         }
     }
 
@@ -110,13 +112,13 @@ public class ObfuscationHelper {
 
         private static void init(int idx) throws Throwable {
             /*com.tencent.mm.ui.LauncherUI*/
-            LauncherUI.startMainUI = new String[]{"bbu", "ban", "bbu"}[idx]; /*"on main tab create"*/
+            LauncherUI.startMainUI = new String[]{"bbu", "ban", "bbu", "biI"}[idx]; /*"on main tab create"*/
 
             /*com.tencent.mm.ui.LauncherUIBottomTabView*/
-            LauncherUIBottomTabView.initSingleTab = new String[]{"a", "a", "a"}[idx];
+            LauncherUIBottomTabView.initSingleTab = new String[]{"a", "a", "a", "a"}[idx];
 
             /*com.tencent.mm.ui.LauncherUI*/
-            AccountStorage.isMMcoreReady = new String[]{"qy", "qw", "qy"}[idx]; /*mmcore has not ready 的上面第三行if(...) break Label...*/
+            AccountStorage.isMMcoreReady = new String[]{"qy", "qw", "qy", "su"}[idx]; /*mmcore has not ready 的上面第三行if(...) break Label...*/
         }
     }
 
@@ -137,13 +139,13 @@ public class ObfuscationHelper {
 
         private static void init(int idx) throws Throwable {
             /*com.tencent.mm.ui.LauncherUI*/
-            LauncherUI.customViewPager = new String[]{"koj", "kfj", "koj"}[idx]; /*CustomViewPager*/
-            LauncherUI.tabView = new String[]{"koi", "kfi", "koi"}[idx]; /*= launcheruibottomtabview*/
-            LauncherUI.isMainTabCreated = new String[]{"knZ", "keZ", "knZ"}[idx]; /*on main tab create*/
+            LauncherUI.customViewPager = new String[]{"koj", "kfj", "koj", "lxa"}[idx]; /*CustomViewPager*/
+            LauncherUI.tabView = new String[]{"koi", "kfi", "koi", "lwZ"}[idx]; /*= launcheruibottomtabview*/
+            LauncherUI.isMainTabCreated = new String[]{"knZ", "keZ", "knZ", "lwQ"}[idx]; /*on main tab create*/
 
             /*com.tencent.mm.ui.LauncherUIBottomTabView$Tab*/
-            LauncherUIBottomTabView$Tab.tabName = new String[]{"kqx", "khx", "kqx"}[idx];
-            LauncherUIBottomTabView$Tab.tabBackground = new String[]{"kqv", "khv", "kqv"}[idx]; /*View*/
+            LauncherUIBottomTabView$Tab.tabName = new String[]{"kqx", "khx", "kqx", "lyV"}[idx];
+            LauncherUIBottomTabView$Tab.tabBackground = new String[]{"kqv", "khv", "kqv", "lyT"}[idx]; /*View*/
         }
     }
 

@@ -157,7 +157,7 @@ public class ObfuscationHelper {
         }
 
         private static void init(int idx, LoadPackageParam lpparam) throws Throwable {
-            color.action_bar_color = new int[]{2131231144, 2131231131, 2131231144}[idx];
+            color.action_bar_color = new int[]{2131231144, 2131231131, 2131231144, 2131231144}[idx];
         }
     }
 

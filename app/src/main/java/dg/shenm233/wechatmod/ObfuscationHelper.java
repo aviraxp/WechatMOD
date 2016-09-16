@@ -118,7 +118,7 @@ public class ObfuscationHelper {
             LauncherUIBottomTabView.initSingleTab = new String[]{"a", "a", "a", "a"}[idx];
 
             /*com.tencent.mm.ui.LauncherUI*/
-            AccountStorage.isMMcoreReady = new String[]{"qy", "qw", "qy", "su"}[idx]; /*mmcore has not ready 的上面第三行if(...) break Label...*/
+            AccountStorage.isMMcoreReady = new String[]{"qy", "qw", "qy", "tg"}[idx]; /*mmcore has not ready 的上面第三行if(...) break Label...*/
         }
     }
 
@@ -157,7 +157,7 @@ public class ObfuscationHelper {
         }
 
         private static void init(int idx, LoadPackageParam lpparam) throws Throwable {
-            color.action_bar_color = new int[]{2131231144, 2131231131, 2131231144, 2131231144}[idx];
+            color.action_bar_color = new int[]{2131231144, 2131231131, 2131231144, 2131689496}[idx];
         }
     }
 

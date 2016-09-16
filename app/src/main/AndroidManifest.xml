@@ -22,7 +22,7 @@
 
         <activity
             android:name=".SettingsActivity"
-            android:enabled="false"
+            android:enabled="true"
             android:label="@string/preference_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

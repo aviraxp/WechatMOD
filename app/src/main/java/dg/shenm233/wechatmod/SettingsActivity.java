@@ -37,14 +37,8 @@ import static dg.shenm233.wechatmod.ObfuscationHelper.isSupportedVersion;
 public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener {
     private SharedPreferences prefs;
 
-    private int PICK_BG = 0;
-
     private Preference mLicense;
-    private ListPreference mSetNav;
-    private MultiSelectListPreference mDisabledItems;
-    private ListPreference mActionBarColor;
     private CheckBoxPreference mForceStatusBarColor;
-    private Preference mPickBg;
     private CheckBoxPreference mHideLauncherIcon;
 
     @Override
@@ -75,18 +69,10 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         findPreference("donate").setOnPreferenceClickListener(this);
 
         mLicense = findPreference("license");
-        mSetNav = (ListPreference) findPreference(Common.KEY_SETNAV);
-        mDisabledItems = (MultiSelectListPreference) findPreference(Common.KEY_DISABLED_ITEMS);
-        mActionBarColor = (ListPreference) findPreference(Common.KEY_ACTIONBAR_COLOR);
         mForceStatusBarColor = (CheckBoxPreference) findPreference(Common.KEY_FORCE_STATUSBAR_COLOR);
-        mPickBg = findPreference("pickup_bg");
         mHideLauncherIcon = (CheckBoxPreference) findPreference("hide_launcher_icon");
         mLicense.setOnPreferenceClickListener(this);
-        mSetNav.setOnPreferenceChangeListener(this);
-        mDisabledItems.setOnPreferenceChangeListener(this);
-        mActionBarColor.setOnPreferenceChangeListener(this);
         mForceStatusBarColor.setOnPreferenceChangeListener(this);
-        mPickBg.setOnPreferenceClickListener(this);
         mHideLauncherIcon.setOnPreferenceChangeListener(this);
     }
 
@@ -94,18 +80,10 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     public void onResume() {
         super.onResume();
         String navMode = prefs.getString(Common.KEY_SETNAV, "default");
-        int index = mSetNav.findIndexOfValue(navMode);
-        CharSequence[] entries = mSetNav.getEntries();
-        mSetNav.setValueIndex(index);
-        mSetNav.setSummary(entries[index]);
+
 
         String actionBarColor = prefs.getString(Common.KEY_ACTIONBAR_COLOR, "#263238");
-        index = mActionBarColor.findIndexOfValue(actionBarColor);
-        entries = mActionBarColor.getEntries();
-        if (index >= 0) {
-            mActionBarColor.setValueIndex(index);
-            mActionBarColor.setSummary(entries[index]);
-        }
+
 
         boolean forceStatusbarColor = prefs.getBoolean(Common.KEY_FORCE_STATUSBAR_COLOR, false);
         mForceStatusBarColor.setChecked(forceStatusbarColor);
@@ -116,44 +94,14 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         super.onDestroy();
         prefs = null;
         mLicense.setOnPreferenceClickListener(null);
-        mSetNav.setOnPreferenceChangeListener(null);
-        mDisabledItems.setOnPreferenceChangeListener(null);
-        mActionBarColor.setOnPreferenceChangeListener(null);
         mForceStatusBarColor.setOnPreferenceChangeListener(null);
-        mPickBg.setOnPreferenceClickListener(null);
         mHideLauncherIcon.setOnPreferenceChangeListener(null);
         findPreference("donate").setOnPreferenceClickListener(null);
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        if (preference == mSetNav) {
-            CharSequence[] entries = mSetNav.getEntries();
-            String key = (String) newValue;
-            int index = mSetNav.findIndexOfValue(key);
-            mSetNav.setSummary(entries[index]);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString(Common.KEY_SETNAV, key);
-            editor.commit();
-            Toast.makeText(this, R.string.preference_reboot_note, Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (preference == mDisabledItems) {
-            Set<String> strs = (Set<String>) newValue;
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putStringSet(Common.KEY_DISABLED_ITEMS, strs);
-            editor.commit();
-            Toast.makeText(this, R.string.preference_reboot_note, Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (preference == mActionBarColor) {
-            CharSequence[] entries = mActionBarColor.getEntries();
-            String key = (String) newValue;
-            int index = mActionBarColor.findIndexOfValue(key);
-            mActionBarColor.setSummary(entries[index]);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString(Common.KEY_ACTIONBAR_COLOR, key);
-            editor.commit();
-            return true;
-        } else if (preference == mForceStatusBarColor) {
+        if (preference == mForceStatusBarColor) {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean(Common.KEY_FORCE_STATUSBAR_COLOR, (boolean) newValue);
             editor.commit();
@@ -180,22 +128,6 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
             intent.setClass(this, LicenseActivity.class);
             startActivity(intent);
             return true;
-        } else if (preference == mPickBg) {
-            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            long drawerWidthdip = Common.getDrawerWidthdip(this);
-            intent.setType("image/*")
-                    .putExtra("crop", "true")
-                    .putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString())
-                    .putExtra("outputX", dipTopx(this, drawerWidthdip)).putExtra("outputY", dipTopx(this, 160L))
-                    .putExtra("aspectX", 2).putExtra("aspectY", 1)
-                    .putExtra("scale", 1)
-                    .putExtra(MediaStore.EXTRA_OUTPUT, getUriFromFile(getFile(Common.DRAWER_BG_PNG)));
-//                    .putExtra("return-data", true);
-            try {
-                startActivityForResult(intent, PICK_BG);
-            } catch (ActivityNotFoundException e) {
-                Log.e("WechatMOD", "can not pick pic");
-            }
         } else if (preference.getKey().equals("donate")) {
             ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText("donate", "darkgentry@hotmail.com");
@@ -206,13 +138,6 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         return false;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PICK_BG) {
-            compressBitmapFileAndcopyToFilesDir(getFile(Common.DRAWER_BG_PNG));
-            Toast.makeText(this, "Done!", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     private File getFile(String path) {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
@@ -230,32 +155,4 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         }
     }
 
-    private void compressBitmapFileAndcopyToFilesDir(File file) {
-        if (file != null) {
-            FileInputStream fileInputStream = null;
-            FileOutputStream fileOutputStream = null;
-            try {
-                fileInputStream = new FileInputStream(file);
-                fileOutputStream = this.openFileOutput(file.getName(), Context.MODE_WORLD_READABLE);
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                Bitmap bitmap = BitmapFactory.decodeStream(fileInputStream, null, options);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, fileOutputStream);
-                bitmap.recycle();
-                fileInputStream.close();
-                fileOutputStream.flush();
-                fileOutputStream.close();
-            } catch (FileNotFoundException e) {
-                Log.e("WechatMOD", "FileNotFoundException");
-            } catch (IOException e) {
-                Log.e("WechatMOD", "IOException");
-            }
-            if (fileInputStream != null) {
-                try {
-                    fileInputStream.close();
-                } catch (IOException e) {
-                    Log.e("WechatMOD", "IOException:fileInputStream.close()");
-                }
-            }
-        }
-    }
 }

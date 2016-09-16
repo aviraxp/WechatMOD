@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 
-    package="dg.shenm233.wechatmod">
+    package="com.aviraxp.wechatmod2">
     
     <application
         android:allowBackup="false"
@@ -13,7 +13,7 @@
             android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="MOD your Wechat" />
+            android:value="MOD your Wechat (Based on WechatMod V2 by shenm233)" />
         <meta-data
             android:name="xposedminversion"
             android:value="53" />

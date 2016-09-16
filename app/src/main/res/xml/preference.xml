@@ -4,12 +4,6 @@
     <PreferenceScreen
         android:summary="@string/preference_note_summary"
         android:title="@string/preference_note" />
-    <PreferenceCategory android:title="@string/preference_ui_settings">
-        <CheckBoxPreference
-            android:key="force_statusbar_color"
-            android:summary="@string/preference_force_statusbar_color_summary"
-            android:title="@string/preference_force_statusbar_color" />
-    </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/preference_about">
         <PreferenceScreen

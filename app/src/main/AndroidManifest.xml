@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    <package="com.aviraxp.wechatmod2">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android
+    package="com.aviraxp.wechatmod2">
     
     <application
         android:allowBackup="false"
